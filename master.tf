@@ -8,6 +8,28 @@ data "openstack_images_image_v2" "master" {
 }
 
 resource "openstack_compute_instance_v2" "master" {
+  count     = var.master_volume_size > 0 ? 0 : var.number_of_masters
+  name      = "${var.cluster_name}-master-${count.index + 1}"
+  flavor_id = data.openstack_compute_flavor_v2.master.id
+  image_id  = data.openstack_images_image_v2.master.id
+  key_pair  = openstack_compute_keypair_v2.bastion.name
+  security_groups = [
+    "default",
+    openstack_networking_secgroup_v2.internal.name
+  ]
+
+  network {
+    name = var.cluster_vnet_name
+  }
+
+  lifecycle {
+    ignore_changes = [
+      image_id
+    ]
+  }
+}
+
+resource "openstack_compute_instance_v2" "master_with_volume" {
   count     = var.number_of_masters
   name      = "${var.cluster_name}-master-${count.index + 1}"
   flavor_id = data.openstack_compute_flavor_v2.master.id
@@ -45,5 +67,5 @@ resource "openstack_networking_floatingip_v2" "master" {
 resource "openstack_compute_floatingip_associate_v2" "master" {
   count       = var.master_with_floating_ip ? var.number_of_masters : 0
   floating_ip = openstack_networking_floatingip_v2.master[count.index].address
-  instance_id = openstack_compute_instance_v2.master[count.index].id
+  instance_id = var.node_volume_size > 0 ? openstack_compute_instance_v2.master_with_volume[count.index].id : openstack_compute_instance_v2.master[count.index].id
 }
