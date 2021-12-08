@@ -33,4 +33,8 @@ module "cf2_cluster" {
   node_with_floating_ip = false
   node_with_eodata      = false
 }
+
+output "cf2_cluster" {
+  value = module.cf2_cluster.*
+}
 ```
