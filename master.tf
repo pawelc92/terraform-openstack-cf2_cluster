@@ -30,7 +30,7 @@ resource "openstack_compute_instance_v2" "master" {
 }
 
 resource "openstack_compute_instance_v2" "master_with_volume" {
-  count     = var.number_of_masters
+  count     = var.master_volume_size > 0 ? var.number_of_masters : 0
   name      = "${var.cluster_name}-master-${count.index + 1}"
   flavor_id = data.openstack_compute_flavor_v2.master.id
   key_pair  = openstack_compute_keypair_v2.bastion.name
