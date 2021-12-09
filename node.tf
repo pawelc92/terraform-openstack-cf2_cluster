@@ -26,6 +26,11 @@ resource "openstack_compute_instance_v2" "node" {
     name = var.cluster_vnet_name
   }
 
+  tags = [
+    "node",
+    var.cluster_name
+  ]
+
   lifecycle {
     ignore_changes = [
       image_id
@@ -55,6 +60,11 @@ resource "openstack_compute_instance_v2" "node_with_volume" {
   network {
     name = var.cluster_vnet_name
   }
+
+  tags = [
+    "node",
+    var.cluster_name
+  ]
 
   lifecycle {
     ignore_changes = [
