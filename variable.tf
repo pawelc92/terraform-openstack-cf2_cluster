@@ -36,6 +36,11 @@ variable "bastion_ssh_key" {
 variable "number_of_masters" {
   type = number
   description = "A number of masters."
+
+  validation {
+    condition     = var.number_of_masters > 0
+    error_message = "A number of masters must be greater than 0."
+  }
 }
 variable "master_flavor_name" {
   type    = string
@@ -64,6 +69,11 @@ variable "master_ssh_key" {
 variable "number_of_nodes" {
   type = number
   description = "A number of nodes."
+
+  validation {
+    condition     = var.number_of_nodes > 0
+    error_message = "A number of nodes must be greater than 0."
+  }
 }
 variable "node_flavor_name" {
   type    = string
