@@ -23,6 +23,11 @@ resource "openstack_compute_instance_v2" "bastion" {
     name = var.cluster_vnet_name
   }
 
+  tags = [
+    "bastion",
+    var.cluster_name
+  ]
+
   lifecycle {
     ignore_changes = [
       image_id
@@ -53,6 +58,11 @@ resource "openstack_compute_instance_v2" "bastion_with_volume" {
   network {
     name = var.cluster_vnet_name
   }
+
+  tags = [
+    "bastion",
+    var.cluster_name
+  ]
 
   lifecycle {
     ignore_changes = [
