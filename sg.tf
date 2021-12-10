@@ -12,7 +12,3 @@ resource "openstack_networking_secgroup_rule_v2" "internal" {
   remote_group_id   = openstack_networking_secgroup_v2.internal.id
   security_group_id = openstack_networking_secgroup_v2.internal.id
 }
-
-resource "openstack_compute_keypair_v2" "bastion" {
-  name = "${var.cluster_name}-key"
-}

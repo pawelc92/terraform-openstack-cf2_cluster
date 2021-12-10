@@ -12,7 +12,7 @@ resource "openstack_compute_instance_v2" "master" {
   name      = "${var.cluster_name}-master-${count.index + 1}"
   flavor_id = data.openstack_compute_flavor_v2.master.id
   image_id  = data.openstack_images_image_v2.master.id
-  key_pair  = openstack_compute_keypair_v2.bastion.name
+  key_pair  = var.master_ssh_key
   security_groups = [
     "default",
     openstack_networking_secgroup_v2.internal.name
@@ -38,7 +38,7 @@ resource "openstack_compute_instance_v2" "master_with_volume" {
   count     = var.master_volume_size > 0 ? var.number_of_masters : 0
   name      = "${var.cluster_name}-master-${count.index + 1}"
   flavor_id = data.openstack_compute_flavor_v2.master.id
-  key_pair  = openstack_compute_keypair_v2.bastion.name
+  key_pair  = var.master_ssh_key
   security_groups = [
     "default",
     openstack_networking_secgroup_v2.internal.name

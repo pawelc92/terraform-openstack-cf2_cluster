@@ -8,11 +8,6 @@ variable "cluster_vnet_name" {
   description = "The name of the network."
 }
 
-variable "ssh_key_name" {
-  type = string
-  description = "The name of the user ssh key."
-}
-
 # Bastion
 variable "number_of_bastions" {
   type    = number
@@ -31,6 +26,10 @@ variable "bastion_volume_size" {
   type    = number
   default = 0
   description = "The size of the bastion volume to create (in gigabytes). Leave 0 to create an instance with a cache volume with the default size for flavor."
+}
+variable "bastion_ssh_key" {
+  type = string
+  description = "The name of the ssh key to be added to bastion host."
 }
 
 # Master
@@ -56,6 +55,10 @@ variable "master_with_floating_ip" {
   type = bool
   description = "Set true to associate floating IP addresses to masters."
 }
+variable "master_ssh_key" {
+  type = string
+  description = "The name of the ssh key to be added to master."
+}
 
 # Node
 variable "number_of_nodes" {
@@ -79,6 +82,10 @@ variable "node_volume_size" {
 variable "node_with_floating_ip" {
   type = bool
   description = "Set true to associate floating IP addresses to nodes."
+}
+variable "node_ssh_key" {
+  type = string
+  description = "The name of the ssh key to be added to node."
 }
 variable "node_with_eodata" {
   type = bool
